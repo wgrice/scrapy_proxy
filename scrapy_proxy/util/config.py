@@ -6,10 +6,106 @@ __author__ = 'Administrator'
 __mtime__ = '2017/11/7'
 """
 
+TEST_IP_VISUAL = 'http://ip.filefab.com'
 TEST_URL = 'http://ip.chinaz.com/getip.aspx'
 TEST_IP = 'http://httpbin.org/ip'
 TEST_HTTP_HEADER = 'http://httpbin.org/get'
 TEST_HTTPS_HEADER = 'https://httpbin.org/get'
+
+PROXY_PARSER_LIST = [
+    {
+        'name': 'xici',
+        'urls': ['http://www.xicidaili.com/%s/%s' % (m, n) for m in ['nn', 'nt', 'wn', 'wt'] for n in range(1, 8)],
+        'type': 'xpath',
+        'pattern': ".//*[@id='ip_list']/tr[position()>1]",
+        'position': {
+            'protocol': './td[6]/text()',
+            'ip': './td[2]/text()',
+            'port': './td[3]/text()',
+            'type': './td[5]/text()',
+            'country': './td[1]/img/@alt',
+            'area': './td[4]/a/text()',
+            'speed': './td[7]/div/@title',
+        }
+    },
+    {
+        'urls': ['http://www.66ip.cn/%s.html' % n for n in ['index'] + list(range(2, 12))],
+        'type': 'xpath',
+        'pattern': ".//*[@id='main']/div/div[1]/table/tr[position()>1]",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[4]', 'protocol': ''}
+    },
+    {
+        'urls': ['http://www.66ip.cn/areaindex_%s/%s.html' % (m, n) for m in range(1, 35) for n in range(1, 10)],
+        'type': 'xpath',
+        'pattern': ".//*[@id='footer']/div/table/tr[position()>1]",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[4]', 'protocol': ''}
+    },
+    {
+        'urls': ['http://cn-proxy.com/', 'http://cn-proxy.com/archives/218'],
+        'type': 'xpath',
+        'pattern': ".//table[@class='sortable']/tbody/tr",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
+
+    },
+    {
+        'urls': ['http://www.mimiip.com/gngao/%s' % n for n in range(1, 10)],
+        'type': 'xpath',
+        'pattern': ".//table[@class='list']/tr",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
+
+    },
+    {
+        'urls': ['https://proxy-list.org/english/index.php?p=%s' % n for n in range(1, 10)],
+        'type': 'module',
+        'moduleName': 'proxy_listPraser',
+        'pattern': 'Proxy\(.+\)',
+        'position': {'ip': 0, 'port': -1, 'type': -1, 'protocol': 2}
+
+    },
+    {
+        'urls': ['http://incloak.com/proxy-list/%s#list' % n for n in
+                 ([''] + ['?start=%s' % (64 * m) for m in range(1, 10)])],
+        'type': 'xpath',
+        'pattern': ".//table[@class='proxy__t']/tbody/tr",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
+
+    },
+    {
+        'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 11)],
+        'type': 'xpath',
+        'pattern': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
+    },
+    {
+        'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in
+                 range(1, 11)],
+        'type': 'xpath',
+        'pattern': ".//*[@id='list']/table/tbody/tr[position()>0]",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
+    },
+    {
+        'urls': ['http://www.cz88.net/proxy/%s' % m for m in
+                 ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 11)]],
+        'type': 'xpath',
+        'pattern': ".//*[@id='boxright']/div/ul/li[position()>1]",
+        'position': {'ip': './div[1]', 'port': './div[2]', 'type': './div[3]', 'protocol': ''}
+
+    },
+    {
+        'urls': ['http://www.ip181.com/daili/%s.html' % n for n in range(1, 11)],
+        'type': 'xpath',
+        'pattern': ".//div[@class='row']/div[3]/table/tbody/tr[position()>1]",
+        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
+
+    },
+    {
+        'urls': ['http://www.cnproxy.com/proxy%s.html' % i for i in range(1, 11)],
+        'type': 'module',
+        'moduleName': 'CnproxyPraser',
+        'pattern': r'<tr><td>(\d+\.\d+\.\d+\.\d+)<SCRIPT type=text/javascript>document.write\(\"\:\"(.+)\)</SCRIPT></td><td>(HTTP|SOCKS4)\s*',
+        'position': {'ip': 0, 'port': 1, 'type': -1, 'protocol': 2}
+    }
+]
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -46,4 +142,13 @@ USER_AGENTS = [
     "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0",
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11",
     "Mozilla/5.0 (X11; U; Linux x86_64; zh-CN; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10"
+]
+
+PROXYS = [
+    {'ip': "111.155.116.220", 'port': int(8123), 'types': "透明", 'protocol': "http", 'country': "中国", 'area': "山西",
+     'speed': 100},
+    {'ip': "121.41.6.85", 'port': int(80), 'types': "匿名", 'protocol': "http", 'country': "中国", 'area': "浙江杭州",
+     'speed': 100},
+    {'ip': "61.152.230.26", 'port': int(8080), 'types': "高匿", 'protocol': "https", 'country': "中国", 'area': "福建漳州",
+     'speed': 100},
 ]

@@ -26,3 +26,6 @@ class TestUtil(unittest.TestCase):
     def tearDown(self):
         logger.info('end test.')
         pass
+
+if __name__ == '__main__':
+    unittest.main()

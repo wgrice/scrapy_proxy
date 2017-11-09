@@ -29,4 +29,4 @@ import os
 #os.path.dirname为文件所在目录
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 #执行命令，相当于在控制台cmd输入改名了
-execute('scrapy crawl my'.split())
+execute('scrapy crawl proxy_spider'.split())
