@@ -13,7 +13,7 @@ class MySpider(scrapy.Spider):
     start_urls = []
 
     def start_requests(self):
-        for parser in PROXY_PARSER_LIST:
+        for parser in PROXY_PARSER_LIST[:1]:
             parser_urls = parser['urls']
             for url in parser_urls:
                 request = Request(url, callback=self.parse_page)
@@ -55,15 +55,18 @@ class MySpider(scrapy.Spider):
             scrapy.Spider.log("Error parser selector!")
 
     def parse_each_by_xpath(self, row, parser):
-        item = ProxyItem()
-        item['protocol'] = row.xpath(parser['position']['protocol']).extract_first().lower()
-        item['ip'] = row.xpath(parser['position']['ip']).extract_first()
-        item['port'] = row.xpath(parser['position']['port']).extract_first()
-        item['type'] = row.xpath(parser['position']['type']).extract_first()
-        item['country'] = row.xpath(parser['position']['country']).extract_first()
-        item['area'] = row.xpath(parser['position']['area']).extract_first()
-        item['speed'] = row.xpath(parser['position']['speed']).extract_first()
-        return item
+        try:
+            item = ProxyItem()
+            item['protocol'] = row.xpath(parser['position']['protocol']).extract_first().lower()
+            item['ip'] = row.xpath(parser['position']['ip']).extract_first()
+            item['port'] = row.xpath(parser['position']['port']).extract_first()
+            item['type'] = row.xpath(parser['position']['type']).extract_first()
+            item['country'] = row.xpath(parser['position']['country']).extract_first()
+            item['area'] = row.xpath(parser['position']['area']).extract_first()
+            item['speed'] = row.xpath(parser['position']['speed']).extract_first()
+            return item
+        except:
+            pass
 
     def parse_each_by_css(self, i, parser):
         pass
