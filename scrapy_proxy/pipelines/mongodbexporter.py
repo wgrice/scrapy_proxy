@@ -5,16 +5,19 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from scrapy.exporters import JsonItemExporter
+import pymysql
 
-class JsonExporterPipeline(object):
-    # 调用 scrapy 提供的 json exporter 导出 json 文件
-    def __init__(self):
+
+class MySQLExporterPipeline(object):
+    # 初始化数据库连接
+    def __init__(self, conn):
         self.file = open('data/proxys.json', 'wb')
-        # 初始化 exporter 实例，执行输出的文件和编码
-        self.exporter = JsonItemExporter(self.file,encoding='utf-8',ensure_ascii=False)
-        # 开启倒数
-        self.exporter.start_exporting()
+
+    @classmethod
+    def from_settings(cls, settings):
+        host = settings['MONGODB_HOST']
+        conn = None
+        return cls(conn)  # 相当于dbpool付给了这个类，self中可以得到
 
     def close_spider(self, spider):
         self.exporter.finish_exporting()

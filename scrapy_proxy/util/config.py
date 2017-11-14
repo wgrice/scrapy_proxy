@@ -12,101 +12,54 @@ TEST_IP = 'http://httpbin.org/ip'
 TEST_HTTP_HEADER = 'http://httpbin.org/get'
 TEST_HTTPS_HEADER = 'https://httpbin.org/get'
 
+
 PROXY_PARSER_LIST = [
     {
         'name': 'xici',
-        'urls': ['http://www.xicidaili.com/%s/%s' % (m, n) for m in ['nn', 'nt', 'wn', 'wt'] for n in range(1, 8)],
-        'type': 'xpath',
-        'pattern': ".//*[@id='ip_list']/tr[position()>1]",
-        'position': {
+        'urls': ['http://www.xicidaili.com/%s/%s' % (m, n) for m in ['nn', 'nt', 'wn', 'wt'] for n in range(1, 2)],
+        'referer': 'http://www.xicidaili.com',
+        'parser_type': 'xpath',
+        'parser_pattern': ".//*[@id='ip_list']/tr[position()>1]",
+        'parser_position': {
             'protocol': './td[6]/text()',
             'ip': './td[2]/text()',
             'port': './td[3]/text()',
             'type': './td[5]/text()',
-            'country': './td[1]/img/@alt',
-            'area': './td[4]/a/text()',
-            'speed': './td[7]/div/@title',
-        }
+        },
+        'proxy_protocol': ['http', 'https', 'http,https'],
+        'proxy_type': ['高匿', '匿名', '透明'],
     },
     {
-        'urls': ['http://www.66ip.cn/%s.html' % n for n in ['index'] + list(range(2, 12))],
-        'type': 'xpath',
-        'pattern': ".//*[@id='main']/div/div[1]/table/tr[position()>1]",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[4]', 'protocol': ''}
+        'name': 'ip181',
+        'urls': ['http://www.ip181.com/daili/%s.html' % n for n in range(1, 5)],
+        'referer': 'http://www.ip181.com',
+        'parser_type': 'xpath',
+        'parser_pattern': ".//div[@class='row']/div[3]/table/tbody/tr[position()>1]",
+        'parser_position': {
+            'protocol': './td[4]/text()',
+            'ip': './td[1]/text()',
+            'port': './td[2]/text()',
+            'type': './td[3]/text()',
+        },
+        'proxy_protocol': ['http', 'https', 'http,https'],
+        'proxy_type': ['高匿', '普匿', '透明'],
     },
     {
-        'urls': ['http://www.66ip.cn/areaindex_%s/%s.html' % (m, n) for m in range(1, 35) for n in range(1, 10)],
-        'type': 'xpath',
-        'pattern': ".//*[@id='footer']/div/table/tr[position()>1]",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[4]', 'protocol': ''}
+        'name': 'yundaili',
+        'urls': ['http://www.ip3366.net/free/?stype=%s&page=%s' % (m, n) for m in range(1, 3) for n in range(1, 8)],
+        'referer': 'http://www.ip3366.net',
+        'parser_type': 'xpath',
+        'parser_pattern': ".//div[@id='list']/table/tbody/tr",
+        'parser_position': {
+            'protocol': './td[4]/text()',
+            'ip': './td[1]/text()',
+            'port': './td[2]/text()',
+            'type': './td[3]/text()',
+        },
+        'proxy_protocol': ['http', 'https', 'http,https'],
+        'proxy_type': ['高匿代理IP', '普通代理IP', '透明代理IP'],
     },
-    {
-        'urls': ['http://cn-proxy.com/', 'http://cn-proxy.com/archives/218'],
-        'type': 'xpath',
-        'pattern': ".//table[@class='sortable']/tbody/tr",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
-
-    },
-    {
-        'urls': ['http://www.mimiip.com/gngao/%s' % n for n in range(1, 10)],
-        'type': 'xpath',
-        'pattern': ".//table[@class='list']/tr",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
-
-    },
-    {
-        'urls': ['https://proxy-list.org/english/index.php?p=%s' % n for n in range(1, 10)],
-        'type': 'module',
-        'moduleName': 'proxy_listPraser',
-        'pattern': 'Proxy\(.+\)',
-        'position': {'ip': 0, 'port': -1, 'type': -1, 'protocol': 2}
-
-    },
-    {
-        'urls': ['http://incloak.com/proxy-list/%s#list' % n for n in
-                 ([''] + ['?start=%s' % (64 * m) for m in range(1, 10)])],
-        'type': 'xpath',
-        'pattern': ".//table[@class='proxy__t']/tbody/tr",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
-
-    },
-    {
-        'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 11)],
-        'type': 'xpath',
-        'pattern': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
-    },
-    {
-        'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in
-                 range(1, 11)],
-        'type': 'xpath',
-        'pattern': ".//*[@id='list']/table/tbody/tr[position()>0]",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
-    },
-    {
-        'urls': ['http://www.cz88.net/proxy/%s' % m for m in
-                 ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 11)]],
-        'type': 'xpath',
-        'pattern': ".//*[@id='boxright']/div/ul/li[position()>1]",
-        'position': {'ip': './div[1]', 'port': './div[2]', 'type': './div[3]', 'protocol': ''}
-
-    },
-    {
-        'urls': ['http://www.ip181.com/daili/%s.html' % n for n in range(1, 11)],
-        'type': 'xpath',
-        'pattern': ".//div[@class='row']/div[3]/table/tbody/tr[position()>1]",
-        'position': {'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
-
-    },
-    {
-        'urls': ['http://www.cnproxy.com/proxy%s.html' % i for i in range(1, 11)],
-        'type': 'module',
-        'moduleName': 'CnproxyPraser',
-        'pattern': r'<tr><td>(\d+\.\d+\.\d+\.\d+)<SCRIPT type=text/javascript>document.write\(\"\:\"(.+)\)</SCRIPT></td><td>(HTTP|SOCKS4)\s*',
-        'position': {'ip': 0, 'port': 1, 'type': -1, 'protocol': 2}
-    }
 ]
-
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)",

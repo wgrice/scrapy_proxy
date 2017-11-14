@@ -21,5 +21,5 @@ class UserAgentMiddleware(object):
 
     def process_request(self, request, spider):
         agent = Util.get_user_agent()
-        spider.logger.info('Request User-Agent: %s' % agent)
+        # spider.logger.info('Request User-Agent: %s' % agent)
         request.headers['User-Agent'] = agent

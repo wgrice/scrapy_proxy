@@ -22,12 +22,13 @@ NEWSPIDER_MODULE = 'scrapy_proxy.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_Items = 100
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 2
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -37,6 +38,8 @@ DOWNLOAD_DELAY = 2
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
+
+REFERER_ENABLED = True
 
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
@@ -58,6 +61,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy_proxy.middlewares.httpproxy.ProxyMiddleware': None,
     'scrapy_proxy.middlewares.useragent.UserAgentMiddleware': 544,
+    'scrapy_proxy.middlewares.referer.RefererMiddleware': 545,
 }
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 
@@ -70,7 +74,9 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'scrapy_proxy.pipelines.jsonexporter.JsonExporterPipeline': 300,
+    'scrapy_proxy.pipelines.itemcounter.ItemCounterPipeline': 200,
+    # 'scrapy_proxy.pipelines.jsonexporter.JsonExporterPipeline': 300,
+    'scrapy_proxy.pipelines.mysqlexporter.MySQLExporterPipeline': 301,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -97,3 +103,14 @@ ITEM_PIPELINES = {
 DUPEFILTER_DEBUG = True
 
 SHOW_RESPONSE = 'browse' #{'None','shell','browse'}
+
+#Mysql数据库的配置信息
+MYSQL_HOST = '127.0.0.1'
+MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
+MYSQL_DBNAME = 'spider'         #数据库名字，请修改
+MYSQL_USER = 'root'             #数据库账号，请修改
+MYSQL_PASSWD = 'wangu2008'         #数据库密码，请修改
+
+DB_CONFIG = {
+
+}
