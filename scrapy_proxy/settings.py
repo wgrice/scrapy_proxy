@@ -80,6 +80,8 @@ ITEM_PIPELINES = {
     'scrapy_proxy.pipelines.mongodbexporter.MongoDBExporterPipeline': 301,
 }
 
+ITEMS_ISNERT_TO_SQL_PER_TIME = 100
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
