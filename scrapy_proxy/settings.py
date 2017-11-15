@@ -76,7 +76,8 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
     'scrapy_proxy.pipelines.itemcounter.ItemCounterPipeline': 200,
     # 'scrapy_proxy.pipelines.jsonexporter.JsonExporterPipeline': 300,
-    'scrapy_proxy.pipelines.mysqlexporter.MySQLExporterPipeline': 301,
+    # 'scrapy_proxy.pipelines.mysqlexporter.MySQLExporterPipeline': 301,
+    'scrapy_proxy.pipelines.mongodbexporter.MongoDBExporterPipeline': 301,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -110,6 +111,13 @@ MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
 MYSQL_DBNAME = 'spider'         #数据库名字，请修改
 MYSQL_USER = 'root'             #数据库账号，请修改
 MYSQL_PASSWD = 'wangu2008'         #数据库密码，请修改
+
+# Mongo数据库的配置信息
+MONGO_HOST = '127.0.0.1'
+MONGO_PORT = 3306               #数据库端口，在dbhelper中使用
+MONGO_DB = 'spider'         #数据库名字，请修改
+MONGO_USER = 'root'             #数据库账号，请修改
+MONGO_PASSWD = 'wangu2008'         #数据库密码，请修改
 
 DB_CONFIG = {
 
